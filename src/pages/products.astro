@@ -1,0 +1,44 @@
+---
+import Layout from '../layouts/Layout.astro';
+
+const products: Product[] = await fetch("https://creating-api-without-database-express.vercel.app/products").then(res => res.json());
+
+type Product = {
+    id: number;
+    name: string;
+    image: string;
+}
+---
+
+<Layout title="Auto Sliders">
+	{
+        products.map(product => (
+            <div>
+                <h1>{product.name}</h1>
+                <img src={product.image} alt={product.name} />
+            </div>
+        ))
+    }
+</Layout>
+
+<style>
+* {
+    box-sizing: border-box;
+}
+
+body{
+    margin: 0;
+    background-color: #e5e5e5;
+}
+main{
+    margin: auto;
+    width: min(1200px, 90vw);
+    
+}
+h1{
+    text-align: center;
+    color: #333;
+    font-size: 3rem;
+}
+</style>
+
