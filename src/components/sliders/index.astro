@@ -1,0 +1,123 @@
+---
+import ItemLogo from "../sliders/Item.astro";
+
+interface Props {
+    reverse?: boolean;
+}
+
+const { reverse } = Astro.props;
+
+const logoImages = [
+  "images/slider1_1.png",
+  "images/slider1_2.png",
+  "images/slider1_3.png",
+  "images/slider1_4.png",
+  "images/slider1_5.png",
+  "images/slider1_6.png",
+  "images/slider1_7.png",
+  "images/slider1_8.png",
+  "images/slider1_9.png",
+  "images/slider1_10.png",
+];
+
+const monosImages = [
+  "images/slider2_1.png",
+  "images/slider2_2.png",
+  "images/slider2_3.png",
+  "images/slider2_4.png",
+  "images/slider2_5.png",
+  "images/slider2_6.png",
+  "images/slider2_7.png",
+  "images/slider2_8.png",
+  "images/slider2_9.png",
+];
+---
+
+<div class="slider" style="
+--width: 100px;
+--height: 50px;
+--quantity: 10;
+"
+data-reverse={reverse ? "true" : "false"}
+>
+  <div class="list">
+    {
+      logoImages.map((img, index) => (
+        <ItemLogo position={index + 1} img={img} />
+      ))
+    }
+  </div>
+</div>
+
+<div
+  class="slider"
+  data-reverse={reverse ? "false" : "true"}
+  style="
+--width: 200px;
+--height: 200px;
+--quantity: 9;
+"
+>
+  <div class="list">
+    {
+      monosImages.map((img, index) => (
+        <ItemLogo position={index + 1} img={img} />
+      ))
+    }
+  </div>
+</div>
+
+<style>
+  .slider {
+    margin-bottom: 10px;
+    width: 100%;
+    height: var(--height);
+    overflow: hidden;
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      #000 10% 90%,
+      transparent
+    );
+  }
+
+  .slider .list {
+    display: flex;
+    width: 100%;
+    min-width: calc(var(--width) * var(--quantity));
+    position: relative;
+  }
+
+  @keyframes autoRun {
+    from {
+      left: 100%;
+    }
+    to {
+      left: calc(var(--width) * -1);
+    }
+  }
+
+  @keyframes reversePlay {
+    from {
+      left: calc(var(--width) * -1);
+    }
+    to {
+      left: 100%;
+    }
+  }
+</style>
+
+<style is:global>
+  .slider[data-reverse="true"] .item {
+    animation: reversePlay 10s linear infinite;
+  }
+
+  .slider:hover .item {
+    animation-play-state: paused !important;
+    filter: grayscale(1);
+  }
+
+  .slider .item:hover {
+    filter: grayscale(0);
+  }
+</style>
